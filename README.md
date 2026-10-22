@@ -1,16 +1,15 @@
-# YouTube Downloader
+# Clipdesk
 
 ![Tested](https://img.shields.io/badge/tested-yes-22c55e?style=flat-square)
 ![Good Practices](https://img.shields.io/badge/good%20practices-yes-3b82f6?style=flat-square)
 ![Docker](https://img.shields.io/badge/docker-ready-2496ed?style=flat-square&logo=docker&logoColor=white)
 ![Python](https://img.shields.io/badge/python-3.10%2B-3776ab?style=flat-square&logo=python&logoColor=white)
-![License](https://img.shields.io/badge/usage-responsible%20only-f59e0b?style=flat-square)
 
 > Part of an open-source toolkit for **streamers, video editors, and content creators** — built to simplify workflows, automate repetitive tasks, and make content creation easier.
 
-A local web app (and CLI) to download YouTube videos with the quality you choose: 4K, 1440p, 1080p, 720p, 480p, 360p, best available, audio-only MP3, or a specific yt-dlp format ID.
+**Clipdesk** is a local web app (and CLI) that pulls online video into your machine for editing, VODs, archives, or offline review. Choose quality (up to 4K), extract MP3, or pick a specific format ID.
 
-If you request a resolution the video does not have, the app picks the highest one that does not exceed it.
+If you request a resolution the source does not have, Clipdesk picks the highest one that does not exceed it.
 
 **Use only with content you have the right to download.**
 
@@ -18,7 +17,7 @@ If you request a resolution the video does not have, the app picks the highest o
 
 ## Why this exists
 
-Creators often need a clean local copy of a video for editing, VODs, archives, or offline review. This tool keeps that step simple:
+Creators often need a clean local copy of a clip before it hits the timeline. Clipdesk keeps that step simple:
 
 - Paste a link, pick quality, save to a folder
 - Run it in Docker or on your machine
@@ -93,12 +92,12 @@ PORT=9000 docker compose up --build -d
 ### Docker without Compose
 
 ```bash
-docker build -t youtube-downloader .
+docker build -t clipdesk .
 docker run --rm -p 8765:8765 \
   -e DOCKER=1 \
   -e DOWNLOAD_DIR=/downloads \
   -v "$PWD/descargas:/downloads" \
-  youtube-downloader
+  clipdesk
 ```
 
 ## Quick start (local)
@@ -109,7 +108,7 @@ docker run --rm -p 8765:8765 \
 
 Open [http://127.0.0.1:8765](http://127.0.0.1:8765).
 
-First run creates `.venv`, installs dependencies, and downloads Deno into `.tools/deno` (used by yt-dlp for YouTube formats). ffmpeg comes from `imageio-ffmpeg`.
+First run creates `.venv`, installs dependencies, and downloads Deno into `.tools/deno`. ffmpeg comes from `imageio-ffmpeg`.
 
 ### Environment variables
 
@@ -126,24 +125,24 @@ HOST=127.0.0.1 PORT=8765 DOWNLOAD_DIR=~/Videos ./web
 
 ## Using the web app
 
-1. Paste a YouTube URL and click **Continuar**
+1. Paste a video URL and click **Continuar**
 2. Choose where to save (local: destination cards or **Explorar carpeta**; Docker: mounted volume)
 3. Pick a quality and click **Descargar**
 4. Watch progress; finished files appear under **Archivos guardados**
 
 Qualities: `best`, `2160`, `1440`, `1080`, `720`, `480`, `360`, `audio`.
 
-You can also pass a yt-dlp format ID such as `137+140`.
+You can also pass a format ID such as `137+140`.
 
 ## CLI
 
 ```bash
 ./descargar
-./descargar "https://www.youtube.com/watch?v=VIDEO"
-./descargar "https://www.youtube.com/watch?v=VIDEO" -c 1080
-./descargar "https://www.youtube.com/watch?v=VIDEO" -c audio
-./descargar "https://www.youtube.com/watch?v=VIDEO" -l
-./descargar "https://www.youtube.com/playlist?list=LIST" --playlist -c 720
+./descargar "https://example.com/watch?v=VIDEO"
+./descargar "https://example.com/watch?v=VIDEO" -c 1080
+./descargar "https://example.com/watch?v=VIDEO" -c audio
+./descargar "https://example.com/watch?v=VIDEO" -l
+./descargar "https://example.com/playlist?list=LIST" --playlist -c 720
 ./descargar "URL" -c 1080 -o ~/Videos
 ```
 
@@ -157,9 +156,9 @@ You can also pass a yt-dlp format ID such as `137+140`.
 ## Project layout
 
 ```text
-youtube-downloader/
+clipdesk/
 ├── app.py                 # Flask web server
-├── download.py            # Download engine (yt-dlp)
+├── download.py            # Download engine
 ├── descargar              # CLI launcher
 ├── web                    # Local web launcher
 ├── templates/             # HTML
@@ -190,7 +189,7 @@ youtube-downloader/
 - In Docker there is no OS folder picker: mount the folder you want.
 - Only one download runs at a time.
 - For playlists, enable the checkbox or use `--playlist` in the CLI.
-- If YouTube breaks format detection, update dependencies:
+- If a site changes and format detection breaks, update dependencies:
 
 ```bash
 # Local
@@ -209,4 +208,4 @@ Ideas, bug reports, and pull requests are welcome — especially around UX for e
 
 ## Responsible use
 
-This tool is for personal and legitimate workflows with content you are allowed to download. Respect YouTube’s terms and applicable law. The maintainers do not endorse copyright infringement.
+Clipdesk is for personal and legitimate workflows with content you are allowed to download. Respect the source platform’s terms and applicable law. The maintainers do not endorse copyright infringement.

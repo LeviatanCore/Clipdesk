@@ -1,8 +1,8 @@
 services:
   web:
     build: .
-    image: youtube-downloader:latest
-    container_name: youtube-downloader
+    image: clipdesk:latest
+    container_name: clipdesk
     ports:
       - "${PORT:-8765}:8765"
     environment:
