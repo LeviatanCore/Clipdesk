@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Descargas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/app.css" />
+  </head>
+  <body>
+    <div class="orb orb-a" aria-hidden="true"></div>
+    <div class="orb orb-b" aria-hidden="true"></div>
+
+    <header class="top">
+      <a class="brand" href="/">Descargas</a>
+      <span id="mode-badge" class="badge">Local</span>
+    </header>
+
+    <main>
+      <section class="hero">
+        <h1>descargas</h1>
+        <p class="lede">Pega un enlace, elige calidad y guarda el archivo donde quieras.</p>
+      </section>
+
+      <form id="lookup" class="glass step" data-step="1">
+        <div class="step-label">Paso 1</div>
+        <label class="field-label" for="url">Enlace de YouTube</label>
+        <div class="url-row">
+          <input
+            id="url"
+            name="url"
+            type="text"
+            inputmode="url"
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="https://www.youtube.com/watch?v=…"
+            required
+          />
+          <button id="lookup-button" class="primary" type="submit">Continuar</button>
+        </div>
+        <label class="check">
+          <input id="playlist" type="checkbox" />
+          Si es una lista, preparar todos los videos
+        </label>
+        <p id="form-error" class="error" role="alert" hidden></p>
+      </form>
+
+      <section class="glass step" data-step="2">
+        <div class="step-label">Paso 2</div>
+        <div class="section-head">
+          <h2>Dónde guardarlo</h2>
+          <p class="meta" id="destination-hint">Elige un destino o abre el explorador.</p>
+        </div>
+        <div id="destinations" class="destinations" role="listbox" aria-label="Destino"></div>
+        <button id="browse-button" class="browse" type="button">
+          <span class="browse-title">Explorar carpeta</span>
+          <span class="browse-sub">Abre el explorador de Windows para elegir otra ubicación</span>
+        </button>
+        <input id="output" type="hidden" value="" />
+        <p id="folder-error" class="error" role="alert" hidden></p>
+      </section>
+
+      <section id="preview" class="glass step preview" data-step="3" hidden>
+        <div class="step-label">Paso 3</div>
+        <div class="preview-layout">
+          <img id="thumb" alt="" hidden />
+          <div class="preview-copy">
+            <p id="kind" class="eyebrow"></p>
+            <h2 id="title"></h2>
+            <p id="meta" class="meta"></p>
+          </div>
+        </div>
+        <fieldset class="qualities">
+          <legend>Calidad</legend>
+          <div id="quality-grid" class="quality-grid" role="group" aria-label="Calidad"></div>
+        </fieldset>
+        <details class="advanced">
+          <summary>Usar un ID de formato</summary>
+          <label for="format-id">ID de yt-dlp, por ejemplo 137+140</label>
+          <input id="format-id" type="text" maxlength="40" autocomplete="off" spellcheck="false" />
+        </details>
+        <div class="actions">
+          <button id="download-button" class="primary" type="button">Descargar</button>
+          <p id="download-error" class="error" role="alert" hidden></p>
+        </div>
+      </section>
+
+      <section id="activity" class="glass step" hidden>
+        <div class="section-head">
+          <h2>En curso</h2>
+        </div>
+        <div id="jobs"></div>
+      </section>
+
+      <section class="glass step files">
+        <div class="files-head">
+          <h2>Archivos guardados</h2>
+          <p id="folder" class="meta"></p>
+        </div>
+        <ul id="file-list" class="file-list"></ul>
+      </section>
+
+      <p class="footnote">Úsalo solo con videos que tengas derecho a descargar.</p>
+    </main>
+    <script src="/static/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,10 @@
+.venv/
+.tools/
+__pycache__/
+*.py[cod]
+descargas/
+*.part
+*.ytdl
+*.tmp
+.env
+.env.*

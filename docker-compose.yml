@@ -1,0 +1,17 @@
+services:
+  web:
+    build: .
+    image: youtube-downloader:latest
+    container_name: youtube-downloader
+    ports:
+      - "${PORT:-8765}:8765"
+    environment:
+      HOST: "0.0.0.0"
+      PORT: "8765"
+      DOWNLOAD_DIR: /downloads
+      DOCKER: "1"
+    volumes:
+      # Cambia el lado izquierdo para guardar en otra carpeta del host.
+      # Ejemplo Windows/WSL: /mnt/c/Users/tu-usuario/Videos:/downloads
+      - ./descargas:/downloads
+    restart: unless-stopped
