@@ -449,9 +449,20 @@ button:active { transform: translateY(1px); }
 }
 
 .file-row {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
   padding: 12px 0;
   border-top: 1px solid var(--line);
   align-items: center;
+}
+
+.file-main {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  flex: 1;
 }
 
 .file-row a {
@@ -463,6 +474,38 @@ button:active { transform: translateY(1px); }
 }
 
 .file-row a:hover { color: #c7d2fe; }
+
+.pixdesk-link {
+  flex-shrink: 0;
+  font-size: 0.78rem !important;
+  font-weight: 600 !important;
+  color: #a5b4fc !important;
+  border: 1px solid rgba(165, 180, 252, 0.35);
+  border-radius: 999px;
+  padding: 6px 10px;
+  text-decoration: none !important;
+  white-space: nowrap;
+}
+
+.pixdesk-link:hover {
+  color: #e0e7ff !important;
+  border-color: rgba(224, 231, 255, 0.55);
+  background: rgba(99, 102, 241, 0.12);
+}
+
+.job-files {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.job-file-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
 
 .empty { color: var(--muted); padding-top: 8px; }
 

@@ -28,6 +28,7 @@ const state = {
   output: "",
   outputHint: "",
   suggestions: [],
+  pixdeskUrl: "http://127.0.0.1:5173",
 };
 
 function fileHref(name, output) {
@@ -35,6 +36,35 @@ function fileHref(name, output) {
   if (output) params.set("output", output);
   const query = params.toString();
   return `/files/${encodeURIComponent(name)}${query ? `?${query}` : ""}`;
+}
+
+const VIDEO_EXT = new Set([".mp4", ".webm", ".mkv", ".mov", ".m4v"]);
+
+function isVideoName(name) {
+  const lower = String(name || "").toLowerCase();
+  const dot = lower.lastIndexOf(".");
+  return dot >= 0 && VIDEO_EXT.has(lower.slice(dot));
+}
+
+function pixdeskHref(name, output) {
+  const base = state.pixdeskUrl || "http://127.0.0.1:5173";
+  const url = new URL("/video", base.endsWith("/") ? base : `${base}/`);
+  url.searchParams.set("from", "clipdesk");
+  url.searchParams.set("name", name);
+  if (output) url.searchParams.set("output", output);
+  return url.toString();
+}
+
+function appendPixdeskButton(parent, name, output) {
+  if (!isVideoName(name)) return;
+  const btn = document.createElement("a");
+  btn.className = "pixdesk-link";
+  btn.href = pixdeskHref(name, output);
+  btn.target = "_blank";
+  btn.rel = "noopener";
+  btn.textContent = "Abrir en Pixdesk";
+  btn.title = "Send this clip to Pixdesk Video editor";
+  parent.appendChild(btn);
 }
 
 const statusText = {
@@ -173,13 +203,17 @@ function renderFiles(files) {
   for (const file of files) {
     const item = document.createElement("li");
     item.className = "file-row";
+    const main = document.createElement("div");
+    main.className = "file-main";
     const link = document.createElement("a");
     link.href = fileHref(file.name, state.output);
     link.textContent = file.name;
     const size = document.createElement("span");
     size.className = "meta";
     size.textContent = file.size_label;
-    item.append(link, size);
+    main.append(link, size);
+    item.appendChild(main);
+    appendPixdeskButton(item, file.name, state.output);
     fileList.appendChild(item);
   }
 }
@@ -230,11 +264,16 @@ function renderJobs(jobs) {
     }
     if (job.files && job.files.length) {
       const list = document.createElement("div");
+      list.className = "job-files";
       for (const file of job.files) {
+        const row = document.createElement("div");
+        row.className = "job-file-row";
         const link = document.createElement("a");
         link.href = fileHref(file.name, job.output || state.output);
         link.textContent = `Abrir ${file.name}`;
-        list.appendChild(link);
+        row.appendChild(link);
+        appendPixdeskButton(row, file.name, job.output || state.output);
+        list.appendChild(row);
       }
       card.appendChild(list);
     }
@@ -391,6 +430,7 @@ async function boot() {
     }
     renderQualities(data.qualities || []);
     state.suggestions = data.suggestions || [];
+    if (data.pixdesk_url) state.pixdeskUrl = data.pixdesk_url;
     renderDestinations();
     const saved = data.docker ? "" : window.localStorage.getItem("ydl-output");
     const initial = saved || data.output_dir || "";

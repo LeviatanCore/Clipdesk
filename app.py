@@ -558,6 +558,7 @@ def index():
 @app.get("/api/meta")
 def meta():
     default = OUTPUT_DIR.resolve()
+    pixdesk = os.environ.get("PIXDESK_URL", "http://127.0.0.1:5173").strip().rstrip("/")
     return jsonify(
         {
             "output_dir": str(default),
@@ -566,6 +567,7 @@ def meta():
             "qualities": _quality_payload(),
             "browse_enabled": _browse_available(),
             "docker": _in_docker(),
+            "pixdesk_url": pixdesk or "http://127.0.0.1:5173",
         }
     )
 

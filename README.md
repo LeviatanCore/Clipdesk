@@ -32,6 +32,7 @@ No account required. Files stay on your computer.
 - Playlist support
 - Docker-ready with a bind-mounted downloads folder
 - On WSL/Windows: pick a destination folder with the native Explorer dialog
+- **Open in Pixdesk**: send a downloaded video straight to the Pixdesk video editor
 - CLI for power users and automation
 - ffmpeg and Deno are handled for you (no system install required in most setups)
 
@@ -118,6 +119,7 @@ First run creates `.venv`, installs dependencies, and downloads Deno into `.tool
 | `PORT` | `8765` | HTTP port |
 | `DOWNLOAD_DIR` | `./descargas` | Output folder |
 | `DOCKER` | auto | Set `1` to force Docker mode (no Windows folder picker) |
+| `PIXDESK_URL` | `http://127.0.0.1:5173` | Where “Abrir en Pixdesk” opens (Vite UI in dev) |
 
 ```bash
 HOST=127.0.0.1 PORT=8765 DOWNLOAD_DIR=~/Videos ./web
