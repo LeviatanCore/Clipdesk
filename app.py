@@ -550,9 +550,18 @@ def _run_job(job_id: str, url: str, quality: str, playlist: bool, output_dir: Pa
             job["error"] = _short_error(exc)
 
 
+def _auth_url() -> str:
+    return os.environ.get("LEVIATAN_AUTH_URL", "http://127.0.0.1:8790").strip().rstrip("/")
+
+
 @app.get("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html", auth_url=_auth_url())
+
+
+@app.get("/auth/callback")
+def auth_callback():
+    return render_template("auth_callback.html", auth_url=_auth_url())
 
 
 @app.get("/api/meta")
@@ -568,6 +577,7 @@ def meta():
             "browse_enabled": _browse_available(),
             "docker": _in_docker(),
             "pixdesk_url": pixdesk or "http://127.0.0.1:5173",
+            "auth_url": _auth_url() or "http://127.0.0.1:8790",
         }
     )
 

@@ -23,7 +23,7 @@ Creators often need a clean local copy of a clip before it hits the timeline. Cl
 - Run it in Docker or on your machine
 - Optional CLI for scripts and batch jobs
 
-No account required. Files stay on your computer.
+Files stay on your computer. Optional Leviatan Google sign-in (shared with Pixdesk) is for prefs / future Pro — downloads never leave the machine.
 
 ## Features
 
@@ -33,6 +33,7 @@ No account required. Files stay on your computer.
 - Docker-ready with a bind-mounted downloads folder
 - On WSL/Windows: pick a destination folder with the native Explorer dialog
 - **Open in Pixdesk**: send a downloaded video straight to the Pixdesk video editor
+- **Leviatan account** (optional): Google via `LEVIATAN_AUTH_URL` (`http://127.0.0.1:8790`)
 - CLI for power users and automation
 - ffmpeg and Deno are handled for you (no system install required in most setups)
 
@@ -120,6 +121,7 @@ First run creates `.venv`, installs dependencies, and downloads Deno into `.tool
 | `DOWNLOAD_DIR` | `./descargas` | Output folder |
 | `DOCKER` | auto | Set `1` to force Docker mode (no Windows folder picker) |
 | `PIXDESK_URL` | `http://127.0.0.1:5173` | Where “Abrir en Pixdesk” opens (Vite UI in dev) |
+| `LEVIATAN_AUTH_URL` | `http://127.0.0.1:8790` | Shared Leviatan Google login / Pro entitlements |
 
 ```bash
 HOST=127.0.0.1 PORT=8765 DOWNLOAD_DIR=~/Videos ./web

@@ -18,7 +18,10 @@
 
     <header class="top">
       <a class="brand" href="/">Descargas</a>
-      <span id="mode-badge" class="badge">Local</span>
+      <div class="top-actions">
+        <span id="mode-badge" class="badge">Local</span>
+        <div id="account-root"></div>
+      </div>
     </header>
 
     <main>
@@ -107,6 +110,10 @@
 
       <p class="footnote">Úsalo solo con videos que tengas derecho a descargar.</p>
     </main>
+    <script>
+      window.__LEVIATAN_AUTH_URL__ = {{ auth_url|tojson }};
+    </script>
+    <script src="/static/auth.js"></script>
     <script src="/static/app.js"></script>
   </body>
 </html>

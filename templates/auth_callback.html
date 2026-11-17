@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Iniciando sesión · Clipdesk</title>
+    <link rel="stylesheet" href="/static/app.css" />
+  </head>
+  <body>
+    <main class="auth-callback">
+      <p class="eyebrow">Leviatan Core</p>
+      <h1 id="status">Iniciando sesión…</h1>
+      <p id="detail" class="meta">Preferencias y plan. Tus videos se quedan en este equipo.</p>
+      <p id="error" class="error" hidden></p>
+      <a id="home" href="/" hidden>Volver a Clipdesk</a>
+    </main>
+    <script>
+      window.__LEVIATAN_AUTH_URL__ = {{ auth_url|tojson }};
+    </script>
+    <script src="/static/auth.js"></script>
+    <script>
+      (async function () {
+        const status = document.getElementById("status");
+        const error = document.getElementById("error");
+        const home = document.getElementById("home");
+        const params = new URLSearchParams(String(location.hash || "").replace(/^#/, ""));
+        const token = params.get("token");
+        if (!token) {
+          status.textContent = "No se recibió sesión";
+          error.hidden = false;
+          error.textContent = "Vuelve a intentar iniciar sesión con Google.";
+          home.hidden = false;
+          return;
+        }
+        window.LeviatanAuth.setToken(token);
+        history.replaceState({}, "", "/auth/callback");
+        try {
+          const session = await window.LeviatanAuth.fetchSession();
+          if (!session?.user) throw new Error("invalid");
+          status.textContent = "Listo";
+          location.replace("/");
+        } catch (_e) {
+          status.textContent = "Error al iniciar sesión";
+          error.hidden = false;
+          error.textContent = "Token inválido o servicio auth no disponible.";
+          home.hidden = false;
+        }
+      })();
+    </script>
+  </body>
+</html>

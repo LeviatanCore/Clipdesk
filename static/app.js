@@ -431,11 +431,15 @@ async function boot() {
     renderQualities(data.qualities || []);
     state.suggestions = data.suggestions || [];
     if (data.pixdesk_url) state.pixdeskUrl = data.pixdesk_url;
+    if (data.auth_url) window.__LEVIATAN_AUTH_URL__ = data.auth_url;
     renderDestinations();
     const saved = data.docker ? "" : window.localStorage.getItem("ydl-output");
     const initial = saved || data.output_dir || "";
     const match = state.suggestions.find((item) => item.path === initial);
     setDestination(initial, match?.hint || data.output_hint || initial, match?.label);
+  }
+  if (window.LeviatanAuth?.bootAccount) {
+    await window.LeviatanAuth.bootAccount();
   }
   await refreshFiles();
   poll();
